@@ -3,7 +3,7 @@
 ## 一、下载安装
 
 ```shell
-git clone https://github.com/guoxianru/cookie_pool_lite.git
+git clone git@github.com:guoxianru/cookie_pool_lite.git
 ```
 
 ## 二、项目配置
