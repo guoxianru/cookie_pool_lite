@@ -1,0 +1,6 @@
+apscheduler
+flask
+requests
+lxml
+redis
+loguru
