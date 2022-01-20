@@ -11,7 +11,7 @@ REDIS_PASSWORD = "123456"
 
 # 代理池API设置
 API_HOST = "0.0.0.0"
-API_PORT = "11013"
+API_PORT = "22001"
 
 # cookie池Redis-key
 REDIS_KEY_COOKIE = "weibo_cookie"

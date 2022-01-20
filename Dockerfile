@@ -3,7 +3,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV TZ Asia/Shanghai
 ADD . /srv/proxy_pool_lite
 WORKDIR /srv/proxy_pool_lite
-EXPOSE 11013
+EXPOSE 22001
 
 RUN mkdir /root/.pip
 COPY ./pip.conf /root/.pip/pip.conf
