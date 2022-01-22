@@ -1,6 +1,5 @@
-apscheduler
-flask
-requests
 lxml
+flask
 redis
-loguru
+requests
+apscheduler

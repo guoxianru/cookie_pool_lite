@@ -7,10 +7,10 @@ import json
 
 import redis
 import requests
-from loguru import logger
 from retrying import retry
 
 import config
+from cookie_api import app
 
 red = redis.Redis(
     host=config.REDIS_HOST,
@@ -76,15 +76,14 @@ def get_response(cookie):
 
 # 检查cookie可用性
 def cookie_check():
-    logger.info("开始检查cookie可用性")
     cookie_list = red.smembers(config.REDIS_KEY_COOKIE)
     for cookie in cookie_list:
         response = get_response(cookie)
         if response == 1:
-            logger.info("可用cookie +1")
+            app.logger.info("[可用cookie]-[+1]")
         else:
             red.srem(config.REDIS_KEY_COOKIE, cookie)
-            logger.error("删除cookie +1")
+            app.logger.error("[删除cookie]-[+1]")
 
 
 def run_cookie_check():

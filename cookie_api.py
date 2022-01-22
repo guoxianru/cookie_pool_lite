@@ -4,6 +4,8 @@
 # @UpdateTime: 2022-01-20
 
 import json
+import logging
+import traceback
 
 import redis
 from flask import Flask
@@ -11,6 +13,9 @@ from flask import Flask
 import config
 
 app = Flask(__name__)
+app.debug = False
+app.logger.setLevel(logging.INFO)
+
 red = redis.Redis(
     host=config.REDIS_HOST,
     port=config.REDIS_PORT,
@@ -22,11 +27,15 @@ red = redis.Redis(
 # 功能列表
 @app.route("/", methods=["GET"], strict_slashes=False)
 def index():
-    return {
-        "/get_one": "获取一个cookie",
-        "/get_all": "获取所有cookie",
-        "/get_status": "cookie池状态",
-    }
+    try:
+        return {
+            "/get_one": "获取一个cookie",
+            "/get_all": "获取所有cookie",
+            "/get_status": "cookie池状态",
+        }
+    except:
+        app.logger.error(traceback.format_exc())
+        return {"respCode": 0, "respMsg": "服务异常", "result": {}}
 
 
 # 随机获取一个可用cookie
@@ -34,9 +43,10 @@ def index():
 def get_one():
     try:
         cookie = json.loads(red.srandmember(config.REDIS_KEY_COOKIE))
-        return {"code": 0, "cookie": cookie}
+        return {"respCode": 0, "respMsg": "成功", "result": cookie}
     except:
-        return {"code": 1, "msg": "no cookie!"}
+        app.logger.error(traceback.format_exc())
+        return {"respCode": 1, "respMsg": "no cookie!", "result": {}}
 
 
 # 获取所有可用cookie
@@ -47,9 +57,10 @@ def get_all():
         cookie_all = red.smembers(config.REDIS_KEY_COOKIE)
         for cookie in cookie_all:
             cookie_list.append(json.loads(cookie))
-        return {"code": 0, "cookie": cookie_list}
+        return {"respCode": 0, "respMsg": "成功", "result": cookie_list}
     except:
-        return {"code": 1, "msg": "no cookie!"}
+        app.logger.error(traceback.format_exc())
+        return {"respCode": 1, "respMsg": "no cookie!", "result": {}}
 
 
 # cookie池cookie数量统计
@@ -59,9 +70,10 @@ def get_status():
         status = {
             config.REDIS_KEY_COOKIE: red.scard(config.REDIS_KEY_COOKIE),
         }
-        return {"code": 0, "status": status}
+        return {"respCode": 0, "respMsg": "成功", "result": status}
     except:
-        return {"code": 1, "msg": "no status!"}
+        app.logger.error(traceback.format_exc())
+        return {"respCode": 1, "respMsg": "no status!", "result": {}}
 
 
 # 启动服务
