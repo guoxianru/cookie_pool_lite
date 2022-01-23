@@ -1,11 +1,11 @@
 version: '2'
 services:
-  proxy_pool_lite:
+  cookie_pool_lite:
     build: .
-    container_name: proxy_pool_lite
+    container_name: cookie_pool_lite
     restart: always
     ports:
-      - "22001:22001"
+      - "11006:11006"
     depends_on:
       - redis
     links:

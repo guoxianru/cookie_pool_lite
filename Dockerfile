@@ -1,9 +1,9 @@
 FROM python:3.8
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ Asia/Shanghai
-ADD . /srv/proxy_pool_lite
-WORKDIR /srv/proxy_pool_lite
-EXPOSE 22001
+ADD . /srv/cookie_pool_lite
+WORKDIR /srv/cookie_pool_lite
+EXPOSE 11006
 
 RUN mkdir /root/.pip
 COPY ./pip.conf /root/.pip/pip.conf
